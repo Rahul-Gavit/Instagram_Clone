@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,19 +9,19 @@ import 'package:instagram_flutter/screens/login_screen.dart';
 import 'package:instagram_flutter/screens/signup_screen.dart';
 import 'package:instagram_flutter/utils/colors.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if(kIsWeb){
+  if (kIsWeb) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-        apiKey: 'AIzaSyAqkZR8xevOrmObMLbV5jLIhwRIsETUuZQ', 
-        appId: '1:604965357644:web:cf7d71135d8a50453c0ce9', 
-        messagingSenderId: '604965357644', 
+        apiKey: 'AIzaSyAqkZR8xevOrmObMLbV5jLIhwRIsETUuZQ',
+        appId: '1:604965357644:web:cf7d71135d8a50453c0ce9',
+        messagingSenderId: '604965357644',
         projectId: 'instagram-clone-b9432',
         storageBucket: 'instagram-clone-b9432.appspot.com',
       ),
     );
-  }else{
+  } else {
     await Firebase.initializeApp();
   }
   runApp(const MyApp());
@@ -38,12 +39,32 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: mobileBackgroundColor,
       ),
-      // home: const 
-      // ResponsiveLayout(mobileScreenLayout: MobileScreenLayout(),
-      // webScrrenLayout: WebScreenLayout(),
-      // ),
-      home: LoginScreen(),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.active) {
+            if (snapshot.hasData) {
+              return const ResponsiveLayout(
+                mobileScreenLayout: MobileScreenLayout(),
+                webScrrenLayout: WebScreenLayout(),
+              );
+            } else if(snapshot.hasError){
+              return Center(
+                child: Text('${snapshot.error}'),
+              );
+            }
+          }
+          if(snapshot.connectionState == ConnectionState.waiting){
+            return Center(
+              child: CircularProgressIndicator(
+                color : primaryColor
+                ),
+            );
+          }
+
+          return const LoginScreen();
+        },
+      ),
     );
   }
 }
-
