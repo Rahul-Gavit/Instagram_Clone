@@ -60,14 +60,14 @@ class _SignupScreenState extends State<SignupScreen> {
       _isLoading = false;
     });
 
-    if (res != 'success') {
+    if (res == 'success') {
       showSnakBar(res, context);
     } else {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) => const ResponsiveLayout(
               mobileScreenLayout: MobileScreenLayout(),
-              webScrrenLayout: WebScreenLayout(),
+              webScreenLayout: WebScreenLayout(),
             ),
           ),
         );

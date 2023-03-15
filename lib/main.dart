@@ -16,11 +16,11 @@ void main() async {
   if (kIsWeb) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-        apiKey: 'AIzaSyAqkZR8xevOrmObMLbV5jLIhwRIsETUuZQ',
-        appId: '1:604965357644:web:cf7d71135d8a50453c0ce9',
-        messagingSenderId: '604965357644',
-        projectId: 'instagram-clone-b9432',
-        storageBucket: 'instagram-clone-b9432.appspot.com',
+        apiKey: 'Enter Your api key',
+        appId: 'Enter Your App Id',
+        messagingSenderId: 'Enter Your Id',
+        projectId: 'Enter Your Id',
+        storageBucket: 'Enter Yours',
       ),
     );
   } else {
@@ -52,9 +52,10 @@ class MyApp extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
               if (snapshot.hasData) {
+                 // if snapshot has data which means user is logged in then we check the width of screen and accordingly display the screen layout
                 return const ResponsiveLayout(
                   mobileScreenLayout: MobileScreenLayout(),
-                  webScrrenLayout: WebScreenLayout(),
+                  webScreenLayout: WebScreenLayout(),
                 );
               } else if (snapshot.hasError) {
                 return Center(
@@ -63,7 +64,7 @@ class MyApp extends StatelessWidget {
               }
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(color: primaryColor),
               );
             }

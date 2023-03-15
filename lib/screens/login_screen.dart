@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
           MaterialPageRoute(
             builder: (context) => const ResponsiveLayout(
               mobileScreenLayout: MobileScreenLayout(),
-              webScrrenLayout: WebScreenLayout(),
+              webScreenLayout: WebScreenLayout(),
             ),
           ),
         );
